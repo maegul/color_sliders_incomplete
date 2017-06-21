@@ -1,0 +1,146 @@
+<html>
+<head>
+	<title>Color Sliders</title>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+
+</head>
+
+
+
+
+
+<body>
+
+	<div class='col_main'>
+
+	</div>
+
+	<div class='slid_cont'>
+
+		<span>Red</span>
+		<input id='red_slider' type='range' min=0 max=255 step=1 value=0>
+
+	</div>
+
+	<div class='slid_cont'>
+
+		<span>Green</span>
+		<input id='green_slider' type='range' min=0 max=255 step=1 value=0>
+
+	</div>
+
+
+	<div class='slid_cont'>
+
+		<span>Blue</span>
+		<input id='blue_slider' type='range' min=0 max=255 step=1 value=0>
+
+	</div>
+
+	<div id='col_out_string'>
+
+	</div>
+
+<script type="text/javascript">
+
+
+
+var d3 = Plotly.d3;
+
+
+var col_main = d3.select('.col_main')
+
+var red_slider = d3.select('#red_slider')
+var green_slider = d3.select('#green_slider')
+var blue_slider = d3.select('#blue_slider')
+
+
+// Make an object to store the color of .col_main at any time
+
+// Uses Separate Red, Green and Blue values to define colors in teh RGB format
+var main_color = {
+	r: 0, 
+	g: 0, 
+	b: 0
+}
+
+
+function make_color(rgb_vals){
+
+	// Function for taking raw RGB values and putting them together
+	// to form a single color string for us
+
+	// We use a d3 function to help us
+	// d3.rgb() - takes RGB values, and lets us use d3.rgb().toString() to make a single string
+
+	var col_string = d3.rgb(rgb_vals['r'], rgb_vals['g'], rgb_vals['b'])
+						.toString()   // this is a function of d3.rgb(). Converts the values to a single string
+
+	return col_string
+}
+
+
+
+function report_col(){
+
+	var output = 'rgb(' + main_color['r'] + ',' + main_color['g'] + ',' + main_color['b'] + ')'
+
+	d3.select('#col_out_string').text('this could be the actual color of the square')
+}
+
+
+
+col_main
+	.style('background-color', make_color(main_color))
+	.style('border-width', '1px')
+	.style('border-color', 'black')
+	.style('border-style', 'solid')
+	.style('height', '300px')
+	.style('width', '300px')
+
+
+
+red_slider.on('input', function(){
+
+	console.log(this.value)
+
+	main_color['r'] = this.value;
+
+	col_main.style('background-color', make_color(main_color))
+
+	report_col();
+})
+
+
+
+green_slider.on('input', function(){
+
+	console.log(this.value)
+
+	main_color['b'] = this.value;
+
+	col_main.style('background-color', make_color(main_color))
+
+	report_col();
+
+})
+
+blue_slider.on('input', function(){
+
+	console.log(this.value)
+
+	main_color['r'] = this.value;
+
+	col_main.style('background-color', make_color(main_color))
+
+	report_col();
+
+})
+
+
+</script>
+
+</body>
+</html>
